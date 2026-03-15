@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter Web: Chrome (debug)",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "chrome",
+      "args": [
+        "--web-port",
+        "3001"
+      ]
+    },
+    {
+      "name": "Flutter Web: Edge (debug)",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "edge",
+      "args": [
+        "--web-port",
+        "3001"
+      ]
+    },
+    {
+      "name": "Flutter Web: Chrome (release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "deviceId": "chrome",
+      "args": [
+        "--web-port",
+        "3001"
+      ]
+    },
+    {
+      "name": "Flutter Web: Edge (release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "deviceId": "edge",
+      "args": [
+        "--web-port",
+        "3001"
+      ]
+    }
+  ]
+}
