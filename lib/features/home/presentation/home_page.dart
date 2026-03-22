@@ -179,11 +179,10 @@ class _PinputDialogState extends State<_PinputDialog> {
       height: 56,
       textStyle: const TextStyle(
         fontSize: 22,
-        color: Color.fromRGBO(30, 60, 87, 1),
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Colors.black),
       ),
     );
 
@@ -214,6 +213,7 @@ class _PinputDialogState extends State<_PinputDialog> {
               controller: controller,
               focusNode: focusNode,
               forceErrorState: showError,
+              defaultPinTheme: defaultPinTheme,
               errorPinTheme: errorPinTheme,
               onCompleted: (pin) => _validate(),
               // onChanged: (value) {

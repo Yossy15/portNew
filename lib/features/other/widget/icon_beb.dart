@@ -12,7 +12,7 @@ class IconBeb extends StatelessWidget {
       onPressed: onPressed,
       label: Text(textlabel,
           style: theme.textTheme.titleMedium?.copyWith(
-            color: theme.colorScheme.onSecondary,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           )),
       icon: Icon(

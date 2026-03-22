@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
+import 'package:portfolio/gen/assets.gen.dart';
 import 'package:portfolio/responsive/screen_size_provider.dart';
 import 'package:portfolio/widgets/cached_network_image_box.dart';
 
@@ -51,12 +52,16 @@ class _HomeHeroSectionState extends ConsumerState<HomeHeroSection>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CachedNetworkImageBox(
-            imageUrl:
-                'https://pbs.twimg.com/profile_images/2032363226273628162/As8ZoIob.jpg',
+            imageUrl: Assets.images.profile.path,
             borderRadius: 50,
             width: 100,
             height: 100,
           ),
+            // Assets.images.profile.image(
+            //   width: 100,
+            //   height: 100,
+            //   fit: BoxFit.cover,
+            // ),
           const Gap(16),
           Flexible(
             child: Column(
@@ -169,11 +174,11 @@ class _PinputDialogState extends State<_PinputDialog> {
       height: 56,
       textStyle: const TextStyle(
         fontSize: 22,
-        color: Color.fromRGBO(30, 60, 87, 1),
+        // color: Color.fromRGBO(30, 60, 87, 1),
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Colors.black87),
       ),
     );
 
@@ -204,6 +209,7 @@ class _PinputDialogState extends State<_PinputDialog> {
               controller: controller,
               focusNode: focusNode,
               forceErrorState: showError,
+              defaultPinTheme: defaultPinTheme,
               errorPinTheme: errorPinTheme,
               onCompleted: (pin) => _validate(),
               // onChanged: (value) {

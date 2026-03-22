@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:portfolio/features/login/login.dart';
 import 'package:portfolio/features/other/widget/start_beb.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,6 +13,7 @@ part 'app_router.g.dart';
 
 @riverpod
 GoRouter appRouter(AppRouterRef ref) {
+  
   return GoRouter(
     initialLocation: '/',
     routes: <RouteBase>[
@@ -50,6 +52,7 @@ GoRouter appRouter(AppRouterRef ref) {
           child: StartBeb(),
         ),
       ),
+      GoRoute(path:'/login', name: 'login', pageBuilder: (context, state) => const MaterialPage(child: Login())),
     ],
   );
 }

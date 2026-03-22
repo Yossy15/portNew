@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNavBar({
     super.key,
-    this.title = 'Your Name',
+    this.title = 'PP.Porfolio',
     this.onHomeTap,
     this.onProjectsTap,
     this.onAboutTap,
@@ -23,7 +23,25 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
+      title: TextButton.icon(
+        onPressed: () => context.go('/'),
+        icon: const Icon(Icons.g_mobiledata_outlined, size: 40,),
+        label: Text(title),
+        style: ButtonStyle(
+          backgroundBuilder: (context, states, child) => Container(
+            // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(
+                color: Colors.black.withOpacity(0.5),
+                width: 2,
+              ),
+            ),
+            child: child,
+          ),
+        ),
+      ),
       actions: <Widget>[
         TextButton(
           onPressed: onHomeTap ?? () => context.go('/'),

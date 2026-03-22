@@ -26,11 +26,9 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Your Name – Flutter Developer',
+      title: 'PP.Porfolio',
       scrollBehavior: const AppScrollBehavior(),
-      themeMode: theme.themeMode,
-      theme: theme.lightTheme,
-      darkTheme: theme.darkTheme,
+      theme: theme,
       routerConfig: router,
     );
   }
