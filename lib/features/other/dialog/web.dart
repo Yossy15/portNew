@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:portfolio/features/other/widget/web_url.dart';
-import 'package:portfolio/gen/assets.gen.dart';
 import 'package:portfolio/responsive/screen_size_provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class WebGridDialog extends HookConsumerWidget {
   const WebGridDialog({super.key});
@@ -18,7 +18,7 @@ class WebGridDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = ref.watch(screenSizeProvider);
     final wedImages = [
-      'https://lh3.googleusercontent.com/d/1t4a9O6NjKTkuAkfwYixDExSHcuEJC9ek'
+      'https://lh3.googleusercontent.com/d/1t4a9O6NjKTkuAkfwYixDExSHcuEJC9ek',
     ];
 
     return Dialog(
@@ -57,18 +57,54 @@ class WebGridDialog extends HookConsumerWidget {
                 ),
                 itemCount: wedImages.length,
                 itemBuilder: (context, index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: WebUrl(
-                      imageUrl: wedImages[index],
-                      onTap: () {
-                        openweburl('https://yossy15.github.io/surprise/');
-                      },
-                    ),
-                  );
+                  return _WebGridItem(imageUrl: wedImages[index]);
                 },
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _WebGridItem extends StatefulWidget {
+  const _WebGridItem({required this.imageUrl});
+
+  final String imageUrl;
+
+  @override
+  State<_WebGridItem> createState() => _WebGridItemState();
+}
+
+class _WebGridItemState extends State<_WebGridItem> {
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        openweburl('https://yossy15.github.io/surprise/');
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            WebUrl(
+              imageUrl: widget.imageUrl,
+              onTap: () {
+                openweburl('https://yossy15.github.io/surprise/');
+              },
+            ),
+            if (_isLoading)
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  color: Colors.grey[300],
+                ),
+              ),
           ],
         ),
       ),

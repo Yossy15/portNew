@@ -11,7 +11,8 @@ import 'package:portfolio/features/other/model/contact_yoss_form.dart';
 import 'package:portfolio/features/other/widget/icon_beb.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-const _contactApiUrl = 'https://testsendemail-production-f7ae.up.railway.app/contact';
+const _contactApiUrl =
+    'https://testsendemail-production-f7ae.up.railway.app/contact';
 const _defaultContactEmail = 'test@example.com';
 
 class StartBeb extends ConsumerStatefulWidget {
@@ -103,7 +104,7 @@ class _StartBebState extends ConsumerState<StartBeb> {
                   ),
                 ),
                 child: Text(
-                  "ฝากบอก YOSS",
+                  "ฝากบอก YOSSY",
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
@@ -118,9 +119,14 @@ class _StartBebState extends ConsumerState<StartBeb> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            IconBeb(onPressed: () => PictureGridDialog.show(context), textlabel: "Pictures"),
-            IconBeb(onPressed: () => VideoGridDialog.show(context), textlabel: "Videos"),
-            IconBeb(onPressed: () => WebGridDialog.show(context), textlabel: "Web")
+            IconBeb(
+                onPressed: () => PictureGridDialog.show(context),
+                textlabel: "Pictures"),
+            IconBeb(
+                onPressed: () => VideoGridDialog.show(context),
+                textlabel: "Videos"),
+            IconBeb(
+                onPressed: () => WebGridDialog.show(context), textlabel: "Web")
           ],
         ),
       ],
@@ -194,8 +200,8 @@ class _ContactYossDialogState extends State<_ContactYossDialog> {
       return;
     }
 
-    final name = (_form.control(ContactYossForm.nameKey).value as String)
-        .trim();
+    final name =
+        (_form.control(ContactYossForm.nameKey).value as String).trim();
     final message =
         (_form.control(ContactYossForm.messageKey).value as String).trim();
 
@@ -253,7 +259,7 @@ class _ContactYossDialogState extends State<_ContactYossDialog> {
                 formControlName: ContactYossForm.nameKey,
                 textInputAction: TextInputAction.next,
                 validationMessages: _nameMessages,
-                decoration: _fieldDecoration(context, 'ชื่อของใครก็ใส่มานะจ้ะะ').copyWith(
+                decoration: _fieldDecoration(context, 'ปุ้มปุ้ย').copyWith(
                   labelText: 'ชื่อเล่น',
                 ),
               ),
@@ -283,8 +289,7 @@ class _ContactYossDialogState extends State<_ContactYossDialog> {
       ),
       actions: [
         TextButton(
-          onPressed:
-              _submitting ? null : () => Navigator.of(context).pop(),
+          onPressed: _submitting ? null : () => Navigator.of(context).pop(),
           child: const Text('ยกเลิก'),
         ),
         FilledButton(

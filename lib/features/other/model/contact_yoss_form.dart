@@ -11,7 +11,7 @@ abstract final class ContactYossForm {
         validators: [_trimmedMinLength(2)],
       ),
       messageKey: FormControl<String>(
-        validators: [_trimmedMinLength(5)],
+        validators: [_trimmedMinLength(2)],
       ),
     });
   }

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:portfolio/gen/assets.gen.dart';
 import 'package:portfolio/responsive/screen_size_provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:shimmer/shimmer.dart';
 
 class VideoGridDialog extends HookConsumerWidget {
   const VideoGridDialog({super.key});
@@ -19,7 +20,6 @@ class VideoGridDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = ref.watch(screenSizeProvider);
-
     final videos = Assets.videos.values;
 
     return Dialog(
@@ -53,13 +53,7 @@ class VideoGridDialog extends HookConsumerWidget {
                 ),
                 itemCount: videos.length,
                 itemBuilder: (context, index) {
-                  return _VideoThumbnailItem(
-                    assetPath: videos[index],
-                    onTap: () => _VideoPlayerDialog.show(
-                      context,
-                      videos[index],
-                    ),
-                  );
+                  return _VideoThumbnailItem(assetPath: videos[index]);
                 },
               ),
             ),
@@ -71,19 +65,14 @@ class VideoGridDialog extends HookConsumerWidget {
 }
 
 class _VideoThumbnailItem extends HookWidget {
-  const _VideoThumbnailItem({
-    required this.assetPath,
-    required this.onTap,
-  });
+  const _VideoThumbnailItem({required this.assetPath});
 
   final String assetPath;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final controller = useMemoized(
-      () => VideoPlayerController.asset(assetPath),
-    );
+    final controller =
+        useMemoized(() => VideoPlayerController.asset(assetPath));
     final isInitialized = useState(false);
 
     useEffect(() {
@@ -94,15 +83,23 @@ class _VideoThumbnailItem extends HookWidget {
     }, [controller]);
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => _VideoPlayerDialog.show(context, assetPath),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Stack(
           fit: StackFit.expand,
           children: [
-            isInitialized.value
-                ? VideoPlayer(controller)
-                : Container(color: Colors.grey[300]),
+            // ถ้ายังไม่โหลด → Shimmer Skeleton
+            if (!isInitialized.value)
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(color: Colors.grey[300]),
+              )
+            else
+              VideoPlayer(controller),
+
+            // Overlay Play icon
             Container(
               color: Colors.black38,
               child: const Center(
@@ -178,9 +175,8 @@ class _ChewiePlayer extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final videoController = useMemoized(
-      () => VideoPlayerController.asset(assetPath),
-    );
+    final videoController =
+        useMemoized(() => VideoPlayerController.asset(assetPath));
     final chewieController = useState<ChewieController?>(null);
     final isInitialized = useState(false);
 

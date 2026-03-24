@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:portfolio/gen/assets.gen.dart';
 import 'package:portfolio/responsive/screen_size_provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PictureGridDialog extends HookConsumerWidget {
   const PictureGridDialog({super.key});
@@ -16,7 +17,6 @@ class PictureGridDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = ref.watch(screenSizeProvider);
-
     final images = Assets.imagesBaby.values;
 
     return Dialog(
@@ -52,7 +52,7 @@ class PictureGridDialog extends HookConsumerWidget {
                 itemBuilder: (context, index) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: _FullScreenImageItem(asset: images[index]),
+                    child: _ThumbnailItem(asset: images[index]),
                   );
                 },
               ),
@@ -64,8 +64,9 @@ class PictureGridDialog extends HookConsumerWidget {
   }
 }
 
-class _FullScreenImageItem extends StatelessWidget {
-  const _FullScreenImageItem({required this.asset});
+// ---------------- Thumbnail ----------------
+class _ThumbnailItem extends StatelessWidget {
+  const _ThumbnailItem({required this.asset});
 
   final AssetGenImage asset;
 
@@ -73,7 +74,26 @@ class _FullScreenImageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _openFullScreen(context),
-      child: asset.image(fit: BoxFit.cover),
+      child: asset.image(
+        fit: BoxFit.cover,
+        filterQuality: FilterQuality.low,
+        frameBuilder: (context, child, frame, wasSync) {
+          if (wasSync || frame != null) {
+            // Fade-in เมื่อโหลดเสร็จ
+            return AnimatedOpacity(
+              opacity: 1,
+              duration: const Duration(milliseconds: 400),
+              child: child,
+            );
+          }
+          // Shimmer placeholder
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(color: Colors.grey[300]),
+          );
+        },
+      ),
     );
   }
 
@@ -91,6 +111,7 @@ class _FullScreenImageItem extends StatelessWidget {
   }
 }
 
+// ---------------- Full-screen ----------------
 class _FullScreenImageView extends StatelessWidget {
   const _FullScreenImageView({required this.asset});
 
@@ -106,7 +127,28 @@ class _FullScreenImageView extends StatelessWidget {
             child: InteractiveViewer(
               minScale: 0.5,
               maxScale: 4.0,
-              child: asset.image(fit: BoxFit.contain),
+              child: asset.image(
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.medium,
+                frameBuilder: (context, child, frame, wasSync) {
+                  if (wasSync || frame != null) {
+                    return AnimatedOpacity(
+                      opacity: 1,
+                      duration: const Duration(milliseconds: 400),
+                      child: child,
+                    );
+                  }
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[800]!,
+                    highlightColor: Colors.grey[600]!,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      color: Colors.grey[800],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           Positioned(
